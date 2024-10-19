@@ -1,15 +1,9 @@
 package application.springbootworkshop.config;
 
 
-import application.springbootworkshop.entities.Category;
-import application.springbootworkshop.entities.Order;
-import application.springbootworkshop.entities.Product;
-import application.springbootworkshop.entities.User;
+import application.springbootworkshop.entities.*;
 import application.springbootworkshop.entities.enums.OrderStatus;
-import application.springbootworkshop.repositories.CategoryRepository;
-import application.springbootworkshop.repositories.OrderRepository;
-import application.springbootworkshop.repositories.ProductRepository;
-import application.springbootworkshop.repositories.UserRepository;
+import application.springbootworkshop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +27,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
 
     @Override
@@ -70,6 +67,15 @@ public class TestConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+
+
 
 
     }

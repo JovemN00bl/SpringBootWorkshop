@@ -8,7 +8,9 @@ import jdk.jfr.Enabled;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -20,7 +22,7 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyy-MM-dd'T'HH:mm:ss'Z", timezone = "GMT")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "EEE, dd MMM yyyy HH:mm:ss z", timezone = "GMT")
     private Instant moment;
 
     @ManyToOne
@@ -28,6 +30,9 @@ public class Order implements Serializable {
     private User client;
 
     private Integer orderStatus;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {}
 
@@ -72,6 +77,10 @@ public class Order implements Serializable {
             this.orderStatus = orderStatus.getCode();
         }
 
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
     }
 
     @Override
